@@ -3,9 +3,10 @@
 import { useContext } from 'react';
 import FrontContext from '../FrontContext';
 import ReviewModal from './ReviewModal';
+import OrderModal from './Order/OrderModal';
 
 function Row({ row }) {
-  const { setReviewModal } = useContext(FrontContext);
+  const { setReviewModal, setOrderModal } = useContext(FrontContext);
 
   return (
     < div className="flex book">
@@ -15,6 +16,12 @@ function Row({ row }) {
           src={row.photo}
           alt='book'
         />
+        <button type='button' className='order' onClick={() => setOrderModal(row)}>
+          UŽSAKYTI
+          <svg>
+            <use href='#Confirm' />
+          </svg>
+        </button>
         <h2>{row.title}</h2>
         <h3>{row.author}</h3>
         <u>{row.cat}</u>
@@ -32,6 +39,7 @@ function Row({ row }) {
           </div>
           <button className='order' onClick={() => setReviewModal(row)}>Įvertink ir tu!</button>
           <ReviewModal row={row} />
+          <OrderModal row={row} />
         </div>
       </div>
       <div className="flex">

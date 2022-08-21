@@ -205,6 +205,7 @@ app.get('/kategorijos', (req, res) => {
   LEFT JOIN books AS b
   ON c.id = b.cat_id
   GROUP BY c.title
+  ORDER BY c.title
   `;
   con.query(sql, (err, result) => {
     if (err) throw err;
@@ -226,11 +227,11 @@ app.post('/knygos', (req, res) => {
 });
 // CREATE CAT BACK
 app.post('/kategorijos', (req, res) => {
-  // const sql = `
-  // INSERT INTO categories
-  // (title)
-  // VALUES (?)
-  // `;
+  const sql = `
+  INSERT INTO categories
+  (title)
+  VALUES (?)
+  `;
   con.query(sql, [req.body.title], (err, result) => {
     if (err) throw err;
     res.send({ result, msg: { text: 'Nauja kategorija sekmingai itraukta', type: 'success' } });
@@ -264,10 +265,10 @@ app.delete('/knygos/:id', (req, res) => {
 
 // DELETE CAT BACK
 app.delete('/kategorijos/:id', (req, res) => {
-  // const sql = `
-  // DELETE FROM categories
-  // WHERE id = ?
-  // `;
+  const sql = `
+  DELETE FROM categories
+  WHERE id = ?
+  `;
   con.query(sql, [req.params.id], (err, result) => {
     if (err) throw err;
     res.send({ result, msg: { text: 'Katrgorija istrinta is saraso', type: 'danger' } });
@@ -314,6 +315,48 @@ app.get('/komentarai', (req, res) => {
 //   if (err) throw err;
 //   res.send({ result, msg: { text: 'Komentaras istrintas is saraso', type: 'danger' } });
 // });
+
+// CREATE ORDER FRONT
+app.post('/uzsakymai', (req, res) => {
+  const sql = `
+  INSERT INTO orders
+  (book_id, user_id)
+  VALUES (?, ?)
+  `;
+  con.query(sql, [req.body.bookId, req.body.userId], (err, result) => {
+    if (err) throw err;
+    res.send({ result, msg: { text: 'Jusu uzsakymas pateiktas sekmingai. Laukite rezervacijos patvirtinimo!', type: 'success' } });
+  })
+});
+
+// READ ORDERS FRONT
+app.get('/uzsakymai', (req, res) => {
+  const sql = `
+    SELECT
+   o.id, order_date, return_date, book_id, user_id, status, title, author, ISBN, photo  
+    FROM orders AS o
+    LEFT JOIN books AS b
+    ON o.book_id = b.id
+    GROUP BY o.id
+    `;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
+// READ USERS
+app.get('/users', (req, res) => {
+  const sql = `
+    SELECT
+  id, name, email, role
+    FROM users
+    `;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
 
 ///////DELETE/UPDATE/STATUS/RATING////////////
 // EDIT STATUS BACK

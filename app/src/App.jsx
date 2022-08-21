@@ -78,7 +78,6 @@ function RequireAuth({ children, role }) {
 }
 
 //////////////////LOGIN PAGE////////////
-
 function LoginPage() {
   const navigate = useNavigate();
 

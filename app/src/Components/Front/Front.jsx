@@ -13,6 +13,10 @@ function Front({ show }) {
   const [cats, setCats] = useState(null);
 
   const [reviewModal, setReviewModal] = useState(null);
+
+  const [orderModal, setOrderModal] = useState(null);
+  const [orderCreate, setOrderCreate] = useState(null);
+
   // const [sort, setSort] = useState(0);
   const [filter, setFilter] = useState(0);
   const [search, setSearch] = useState('');
@@ -24,7 +28,8 @@ function Front({ show }) {
 
   const [comments, setComments] = useState(null);
 
-  // const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState(null);
+  const [orders, setOrders] = useState(null);
 
   const showMessage = (mes) => {
     setMessage(mes);
@@ -106,21 +111,51 @@ function Front({ show }) {
       });
   }, [createRates]);
 
-  // ////////////////////GET USER//////////////////////
+  // CREATE Order
+  useEffect(() => {
+    if (null === orderCreate) return;
+    axios
+      .post(
+        'http://localhost:3003/uzsakymai',
+        orderCreate,
+        authConfig()
+      )
+      .then((res) => {
+        showMessage(res.data.msg);
+        setLastUpdate(Date.now());
+      });
+  }, [orderCreate]);
+
+  // Read Orders
+  useEffect(() => {
+    axios.get('http://localhost:3003/uzsakymai', authConfig()).then((res) => {
+      setOrders(res.data);
+    });
+  }, [lastUpdate]);
+
+  // //////////////GET USER//////////////////
+  // Read USERS
+  useEffect(() => {
+    axios.get('http://localhost:3003/users', authConfig()).then((res) => {
+      setUsers(res.data);
+    });
+  }, [lastUpdate]);
+
   function getUser() {
     return localStorage.getItem('username');
   }
 
-  // function userId() {
-  //   const userId = users.filter((user) => user.name === getUser())[0].id;
-  //   return userId;
-  // }
+  function userId() {
+    const userId = users.filter((user) => user.name === getUser())[0].id;
+    return userId;
+  }
   // console.log(getUser(), userId());
 
   return (
     <FrontContext.Provider
       value={{
         getUser,
+        userId,
         books,
         cats,
         message,
@@ -130,13 +165,17 @@ function Front({ show }) {
         // sorting,
         reviewModal,
         setReviewModal,
+        orderModal,
+        setOrderModal,
+        setOrderCreate,
         rate,
         setRate,
         com,
         setCom,
         setCreateCom,
         setCreateRates,
-        comments
+        comments,
+        orders,
       }}
     >
       {show === 'welcome' ? (

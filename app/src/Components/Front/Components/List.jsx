@@ -5,14 +5,18 @@ import FrontContext from '../FrontContext';
 import Filter from '../Filter';
 import Search from '../Search';
 import ComRow from './ComRow';
+import OrderList from './Order/OrderList';
 
 function List() {
-  const { books, comments } = useContext(FrontContext);
+  const { books, comments, orders } = useContext(FrontContext);
 
   return (
     <>
       <div className='front-logo'></div>
-      <h1 className='heading'>Naujausios knygos</h1>
+      <h1 className='cart-heading'>Mano užsakymai</h1>
+      {
+        orders && orders.map(o => <OrderList key={o.id} row={o} />)
+      }
       <div className='flex-card front'>
         <div style={{ display: 'flex' }}>
           <Filter />

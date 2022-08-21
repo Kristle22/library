@@ -2,20 +2,20 @@ import { useContext, useState } from 'react';
 import BackContext from '../BackContext';
 
 function Create() {
-  const { setCreateSecond } = useContext(BackContext);
+  const { setCreateCat } = useContext(BackContext);
 
   const [title, setTitle] = useState('');
 
   const handleCreate = () => {
     const data = { title };
-    setCreateSecond(data);
+    setCreateCat(data);
     setTitle('');
   };
   return (
     <>
-      <div className='form-container' style={{ marginTop: '10px' }}>
+      <div className='form-container admin books' style={{ marginTop: '10px' }}>
         <div className='form color'>
-          <h3>Insert Item...</h3>
+          <h3>Insert Book's Category</h3>
           <form>
             <label>Title</label>
             <input

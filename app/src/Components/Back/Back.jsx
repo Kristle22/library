@@ -4,7 +4,7 @@ import BackContext from './BackContext';
 import Nav from './Nav';
 import BooksCrud from './Books/Crud'
 import CatsCrud from './Cats/Crud';
-// import ComsCrud from './Comments/Crud';
+import ComsCrud from './Comments/Crud';
 import axios from 'axios';
 import { authConfig } from '../../Functions/auth';
 
@@ -107,20 +107,42 @@ function Back({ show }) {
   }, [editData]);
 
   // /////////////AXIOS CATS////////////////
-  // READ Categories
+  // READ Cats
   useEffect(() => {
     axios.get('http://localhost:3003/kategorijos', authConfig()).then((res) => {
       setCats(res.data);
     });
   }, [lastUpdate]);
 
+  // Create Cats
+  useEffect(() => {
+    if (null === createCat) return;
+    axios
+      .post('http://localhost:3003/kategorijos', createCat, authConfig())
+      .then((res) => {
+        showMessage(res.data.msg);
+        setLastUpdate(Date.now());
+      });
+  }, [createCat]);
+
+  // Delete Cats
+  useEffect(() => {
+    if (null === deleteCat) return;
+    axios
+      .delete('http://localhost:3003/kategorijos/' + deleteCat.id, authConfig())
+      .then((res) => {
+        showMessage(res.data.msg);
+        setLastUpdate(Date.now());
+      });
+  }, [deleteCat]);
+
   /////////////////////////COMMENTS/PHOTO/STATUS//////////////////////////////
   // READ COMMENTS
-  // useEffect(() => {
-  //   axios.get('http://localhost:3003/komentarai', authConfig()).then((res) => {
-  //     setComments(res.data);
-  //   });
-  // }, [lastUpdate]);
+  useEffect(() => {
+    axios.get('http://localhost:3003/komentarai', authConfig()).then((res) => {
+      setComments(res.data);
+    });
+  }, [lastUpdate]);
 
   // DELETE COMMENT
   const handleDeleteCom = (id) => {
@@ -153,6 +175,8 @@ function Back({ show }) {
         setImage,
         setCreateData,
         setDeleteData,
+        setCreateCat,
+        setDeleteCat,
         modalData,
         setModalData,
         setEditData,
@@ -187,8 +211,8 @@ function Back({ show }) {
         <BooksCrud />
       ) : show === 'cats' ? (
         <CatsCrud />
-        // ) : show === 'comments' ? (
-        //   <ComsCrud />
+      ) : show === 'comments' ? (
+        <ComsCrud />
       ) : null}
     </BackContext.Provider>
   );

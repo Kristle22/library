@@ -3,10 +3,10 @@ import BackContext from '../BackContext';
 
 function Row({ row }) {
 
-  const { setDeleteClothColor } = useContext(BackContext);
+  const { setDeleteCat } = useContext(BackContext);
 
   const handleDelete = () => {
-    setDeleteClothColor(row);
+    setDeleteCat(row);
   };
   console.log(row);
   return (
@@ -23,7 +23,7 @@ function Row({ row }) {
         >
           {row.title}
         </p>
-        {row.id === row.sm_id ? (
+        {row.id === row.catId ? (
           ''
         ) : (
           <button type='button' className='dlt' onClick={handleDelete}>

@@ -37,7 +37,7 @@ function Create() {
   return (
     <>
       <div
-        className='form-container'
+        className='form-container admin books'
         style={{ display: 'flex', justifyContent: 'end', alignItems: 'center', marginTop: '50px' }}
       >
         <div className='form create'>
