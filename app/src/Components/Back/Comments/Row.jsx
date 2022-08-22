@@ -13,7 +13,7 @@ function Row({ row }) {
         alt='coat of arms'
       />
       <div className="flex-nw line-w">
-        <h2>
+        <h2 className='heading-sm'>
           {row.title}
         </h2>
         <h4>

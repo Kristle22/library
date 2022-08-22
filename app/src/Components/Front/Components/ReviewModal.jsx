@@ -62,15 +62,18 @@ function Create({ row }) {
             >
               &times;
             </button>
-            <div className='frame cartimg'>
+            <div className='frame-full cartimg'>
               <div className='order left'>
                 <div>
                   <div>
                   </div>
                 </div>
-                <div className='pad'>
-                  <h2>{reviewModal.title}</h2>
-                  <h3>{reviewModal.author}</h3>
+                <div className='pad flex-nw frame wb'>
+                  <img src={reviewModal.photo} alt='book' />
+                  <div>
+                    <h2>{reviewModal.title}</h2>
+                    <h3>{reviewModal.author}</h3>
+                  </div>
                 </div>
                 <label>Tavo įvertinimas:</label>
                 <Rating row={reviewModal} />

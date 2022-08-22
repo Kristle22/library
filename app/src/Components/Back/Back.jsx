@@ -5,6 +5,7 @@ import Nav from './Nav';
 import BooksCrud from './Books/Crud'
 import CatsCrud from './Cats/Crud';
 import ComsCrud from './Comments/Crud';
+import OrdersCrud from './Orders/Crud';
 import axios from 'axios';
 import { authConfig } from '../../Functions/auth';
 
@@ -26,6 +27,8 @@ function Back({ show }) {
   const [createCat, setCreateCat] = useState(null);
   const [deleteCat, setDeleteCat] = useState(null);
 
+  const [users, setUsers] = useState(null);
+  const [orders, setOrders] = useState(null);
   const [status, setStatus] = useState(0);
 
   const [sort, setSort] = useState('0');
@@ -154,16 +157,30 @@ function Back({ show }) {
       });
   };
 
+  // READ ORDERS
+  useEffect(() => {
+    axios.get('http://localhost:3003/uzsakymai', authConfig()).then((res) => {
+      setOrders(res.data);
+    });
+  }, [lastUpdate]);
+
+  // Read USERS
+  useEffect(() => {
+    axios.get('http://localhost:3003/uzsakymai', authConfig()).then((res) => {
+      setUsers(res.data);
+    });
+  }, [lastUpdate]);
+
   // Edit STATUS
-  // useEffect(() => {
-  //   if (null === status) return;
-  //   axios
-  //     .put('http://localhost:3003/statusas/' + status.id, status, authConfig())
-  //     .then((res) => {
-  //       showMessage(res.data.msg);
-  //       setLastUpdate(Date.now());
-  //     });
-  // }, [status]);
+  useEffect(() => {
+    if (null === status) return;
+    axios
+      .put('http://localhost:3003/statusas/' + status.id, status, authConfig())
+      .then((res) => {
+        showMessage(res.data.msg);
+        setLastUpdate(Date.now());
+      });
+  }, [status]);
 
   return (
     <BackContext.Provider
@@ -186,9 +203,11 @@ function Back({ show }) {
         setFilter,
         setSearch,
         message,
+        status,
         setStatus,
         handleDeleteCom,
         comments,
+        orders,
       }}
     >
       {show === 'admin' ? (
@@ -213,6 +232,8 @@ function Back({ show }) {
         <CatsCrud />
       ) : show === 'comments' ? (
         <ComsCrud />
+      ) : show === 'orders' ? (
+        <OrdersCrud />
       ) : null}
     </BackContext.Provider>
   );

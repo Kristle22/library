@@ -16,6 +16,8 @@ function Front({ show }) {
 
   const [orderModal, setOrderModal] = useState(null);
   const [orderCreate, setOrderCreate] = useState(null);
+  const [periodModal, setPeriodModal] = useState(null);
+  const [period, setPeriod] = useState(0);
 
   // const [sort, setSort] = useState(0);
   const [filter, setFilter] = useState(0);
@@ -30,6 +32,8 @@ function Front({ show }) {
 
   const [users, setUsers] = useState(null);
   const [orders, setOrders] = useState(null);
+
+  const [limit, setLimit] = useState(0);
 
   const showMessage = (mes) => {
     setMessage(mes);
@@ -128,12 +132,42 @@ function Front({ show }) {
 
   // Read Orders
   useEffect(() => {
-    axios.get('http://localhost:3003/uzsakymai', authConfig()).then((res) => {
+    axios.get('http://localhost:3003/front/uzsakymai', authConfig()).then((res) => {
       setOrders(res.data);
     });
   }, [lastUpdate]);
 
-  // //////////////GET USER//////////////////
+  // Extend PERIOD
+  useEffect(() => {
+    if (null === period) return;
+    axios
+      .put(
+        'http://localhost:3003/terminas/' + period.id,
+        period,
+        authConfig()
+      )
+      .then((res) => {
+        showMessage(res.data.msg);
+        setLastUpdate(Date.now());
+      });
+  }, [period]);
+
+  // SET LIMIT
+  useEffect(() => {
+    if (null === limit) return;
+    axios
+      .put(
+        'http://localhost:3003/limitas/' + limit.id,
+        limit,
+        authConfig()
+      )
+      .then((res) => {
+        showMessage(res.data.msg);
+        setLastUpdate(Date.now());
+      });
+  }, [limit]);
+
+  // //////////////GET USER////////////////
   // Read USERS
   useEffect(() => {
     axios.get('http://localhost:3003/users', authConfig()).then((res) => {
@@ -146,7 +180,7 @@ function Front({ show }) {
   }
 
   function userId() {
-    const userId = users.filter((user) => user.name === getUser())[0].id;
+    const userId = users && users.filter((user) => user.name === getUser())[0].id;
     return userId;
   }
   // console.log(getUser(), userId());
@@ -167,6 +201,10 @@ function Front({ show }) {
         setReviewModal,
         orderModal,
         setOrderModal,
+        periodModal,
+        setPeriodModal,
+        period,
+        setPeriod,
         setOrderCreate,
         rate,
         setRate,
@@ -176,6 +214,8 @@ function Front({ show }) {
         setCreateRates,
         comments,
         orders,
+        limit,
+        setLimit,
       }}
     >
       {show === 'welcome' ? (

@@ -37,21 +37,21 @@ function Create() {
   return (
     <>
       <div className='modal-layer'>
-        <div className='modal-cont reg'>
+        <div className='modal-cont'>
           <div className='modal reg'>
             <button
               type='button'
-              className='close-x reg'
+              className='close-x'
               onClick={() => setOrderModal(null)}
             >
               &times;
             </button>
-            <div className='frame cartimg'>
+            <div className='frame-full cartimg'>
+              <h1>Leidinio užsakymas</h1>
               <img src={orderModal.photo} alt="book" />
               <p><u>{orderModal.cat}</u></p>
               <p className='heading-sm pad5'>{orderModal.title}</p>
               <h2><i>{orderModal.author}</i></h2>
-
               <p>ISBN: {orderModal.ISBN}</p>
               <div className="btns-modal">
                 <button

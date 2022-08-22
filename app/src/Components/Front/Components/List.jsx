@@ -8,14 +8,14 @@ import ComRow from './ComRow';
 import OrderList from './Order/OrderList';
 
 function List() {
-  const { books, comments, orders } = useContext(FrontContext);
+  const { books, comments, orders, userId } = useContext(FrontContext);
 
   return (
     <>
       <div className='front-logo'></div>
       <h1 className='cart-heading'>Mano užsakymai</h1>
       {
-        orders && orders.map(o => <OrderList key={o.id} row={o} />)
+        orders && orders.map(o => o.user_id === userId() ? <OrderList key={o.id} row={o} /> : null)
       }
       <div className='flex-card front'>
         <div style={{ display: 'flex' }}>

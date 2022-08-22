@@ -330,13 +330,34 @@ app.post('/uzsakymai', (req, res) => {
 });
 
 // READ ORDERS FRONT
-app.get('/uzsakymai', (req, res) => {
+app.get('/front/uzsakymai', (req, res) => {
   const sql = `
     SELECT
-   o.id, order_date, return_date, book_id, user_id, status, title, author, ISBN, photo  
+   o.id, o.order_date, o.return_date, o.book_id, o.user_id, o.status, o.limit, b.title, b.author, b.ISBN, b.photo, u.name, u.email
     FROM orders AS o
     LEFT JOIN books AS b
     ON o.book_id = b.id
+
+    LEFT JOIN users AS u
+    ON o.user_id = u.id
+    `;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
+// READ ORDERS BACK
+app.get('/uzsakymai', (req, res) => {
+  const sql = `
+    SELECT
+   o.id, order_date, return_date, book_id, user_id, status, title, author, ISBN, photo, u.name, u.email  
+    FROM orders AS o
+    LEFT JOIN books AS b
+    ON o.book_id = b.id
+
+    LEFT JOIN users AS u
+    ON o.user_id = u.id
     GROUP BY o.id
     `;
   con.query(sql, (err, result) => {
@@ -361,14 +382,40 @@ app.get('/users', (req, res) => {
 ///////DELETE/UPDATE/STATUS/RATING////////////
 // EDIT STATUS BACK
 app.put('/statusas/:id', (req, res) => {
+  const sql = `
+  UPDATE orders 
+  SET status = 1, return_date = ?
+  WHERE id = ?
+  `;
+  con.query(sql, [req.body.returnDate, req.params.id], (err, result) => {
+    if (err) throw err;
+    res.send({ result, msg: { text: 'Uzsakymas patvirtintas', type: 'info' } });
+  });
+});
+
+// EDIT PERIOD FRONT
+app.put('/terminas/:id', (req, res) => {
+  const sql = `
+  UPDATE orders 
+  SET return_date = ?
+  WHERE id = ?
+  `;
+  con.query(sql, [req.body.date, req.params.id], (err, result) => {
+    if (err) throw err;
+    res.send({ result, msg: { text: 'Uzsakymas patvirtintas', type: 'info' } });
+  });
+});
+
+// EDIT LIMIT FRONT
+app.put('/limitas/:id', (req, res) => {
   // const sql = `
   // UPDATE orders 
-  // SET status = 1
+  // SET limit = limit + 1
   // WHERE id = ?
   // `;
   con.query(sql, [req.params.id], (err, result) => {
     if (err) throw err;
-    res.send({ result, msg: { text: 'Uzsakymas patvirtintas', type: 'info' } });
+    res.send({ result, msg: { text: 'Jusu uzsakymas pratestas', type: 'info' } });
   });
 });
 

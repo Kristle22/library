@@ -53,6 +53,14 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route
+          path='/admin/orders'
+          element={
+            <RequireAuth role='admin'>
+              <Back show='orders' />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
