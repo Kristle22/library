@@ -5,7 +5,7 @@
 
 # LIBRARY
 
-Donations server project
+Library server project
 
 # Public domain site design:
 
