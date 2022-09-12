@@ -24,7 +24,7 @@ function Order({ order }) {
 
   return (
     <div className='container flex-row'>
-      <div className='container frame-full order-7'>
+      <div className='container frame-full ord-7'>
         <p>{order.id}</p>
         <p>
           {order.order_date

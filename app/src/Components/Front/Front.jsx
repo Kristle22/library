@@ -3,7 +3,7 @@ import Reducer from './Reducer';
 import FrontContext from './FrontContext';
 import Crud from './Components/Crud';
 import axios from 'axios';
-import { authConfig } from '../../Functions/auth';
+// import { authConfig } from '../../Functions/auth';
 
 function Front({ show }) {
   const [lastUpdate, setLastUpdate] = useState(Date.now());
@@ -61,7 +61,7 @@ function Front({ show }) {
       query = '?s=' + search;
     }
     axios
-      .get('http://localhost:3003/knygos' + query, authConfig())
+      .get('http://localhost:3003/knygos' + query)
       .then((res) => {
         const action = {
           type: 'main_list',
@@ -73,14 +73,14 @@ function Front({ show }) {
 
   // Simple Read FRONT cats
   useEffect(() => {
-    axios.get('http://localhost:3003/kategorijos', authConfig()).then((res) => {
+    axios.get('http://localhost:3003/kategorijos').then((res) => {
       setCats(res.data);
     });
   }, [lastUpdate]);
 
   // Simple Read FRONT coms
   useEffect(() => {
-    axios.get('http://localhost:3003/komentarai', authConfig()).then((res) => {
+    axios.get('http://localhost:3003/komentarai').then((res) => {
       setComments(res.data);
     });
   }, [lastUpdate]);
@@ -91,8 +91,7 @@ function Front({ show }) {
     axios
       .post(
         'http://localhost:3003/komentarai',
-        createCom,
-        authConfig()
+        createCom
       )
       .then((res) => {
         showMessage(res.data.msg);
@@ -106,8 +105,7 @@ function Front({ show }) {
     axios
       .put(
         'http://localhost:3003/reitingai/' + createRates.id,
-        createRates,
-        authConfig()
+        createRates
       )
       .then((res) => {
         showMessage(res.data.msg);
@@ -121,8 +119,7 @@ function Front({ show }) {
     axios
       .post(
         'http://localhost:3003/uzsakymai',
-        orderCreate,
-        authConfig()
+        orderCreate
       )
       .then((res) => {
         showMessage(res.data.msg);
@@ -132,7 +129,7 @@ function Front({ show }) {
 
   // Read Orders
   useEffect(() => {
-    axios.get('http://localhost:3003/front/uzsakymai', authConfig()).then((res) => {
+    axios.get('http://localhost:3003/front/uzsakymai').then((res) => {
       setOrders(res.data);
     });
   }, [lastUpdate]);
@@ -143,8 +140,7 @@ function Front({ show }) {
     axios
       .put(
         'http://localhost:3003/terminas/' + period.id,
-        period,
-        authConfig()
+        period
       )
       .then((res) => {
         showMessage(res.data.msg);
@@ -158,8 +154,7 @@ function Front({ show }) {
     axios
       .put(
         'http://localhost:3003/limitas/' + limit.id,
-        limit,
-        authConfig()
+        limit
       )
       .then((res) => {
         showMessage(res.data.msg);
@@ -170,7 +165,7 @@ function Front({ show }) {
   // //////////////GET USER////////////////
   // Read USERS
   useEffect(() => {
-    axios.get('http://localhost:3003/users', authConfig()).then((res) => {
+    axios.get('http://localhost:3003/users').then((res) => {
       setUsers(res.data);
     });
   }, [lastUpdate]);
