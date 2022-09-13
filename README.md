@@ -10,7 +10,10 @@ Library server project
 # Public domain site design:
 
 ![library](./server/img/library_orders.png)
+![library](./server/img/library_extend.png)
 ![library](./server/img/library_books.png)
+![library](./server/img/library_order.png)
+![library](./server/img/library_rate.png)
 ![library](./server/img/library_coms.png)
 
 # Administrative domain site design:

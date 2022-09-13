@@ -704,7 +704,7 @@ select.sorting,
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #0a0a0aac;
+  background-color: #0909091a;
 }
 .modal {
   border: 3px solid #4e8d4e;
@@ -938,6 +938,9 @@ fieldset {
   align-items: end;
   border: 2px solid #374350;
 }
+.modal.reg select {
+  width: fit-content;
+}
 .modal.reg.distance,
 .login {
   background: linear-gradient(
@@ -1036,8 +1039,9 @@ button.put.reg {
   margin: 5px 0;
   width: 100%;
 }
-.wb {
-  word-break: break-all;
+.frame.wb {
+  width: fit-content;
+  /* word-break: break-all; */
 }
 .com.frame {
   width: 55%;
